@@ -1,0 +1,10 @@
+default:
+  HOST: localhost
+  PORT: 8000
+
+  API_SECRET_KEY: token
+
+  DATABASE:
+    URI: localhost:7687
+    USER: neo4j
+    PASSWORD: postgres
