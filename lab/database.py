@@ -14,4 +14,4 @@ def connect_to_database():
         return db
     except Exception as e:
         print(f"Failed to connect to the Neo4j database: {e}")
-
+        return None

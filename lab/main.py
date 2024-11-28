@@ -6,7 +6,7 @@ from lab.models import User
 
 class App:
     def __init__(self):
-        self.db = connect_to_database()
+
         self.app = FastAPI()
 
         # Регистрируем маршруты
@@ -20,6 +20,7 @@ class App:
             raise HTTPException(status_code=401, detail="Unauthorized")
 
     def get_all_nodes(self):
+        self.db = connect_to_database()
         query = """
             MATCH (n:User)
             RETURN n AS node
@@ -33,6 +34,7 @@ class App:
         return {"nodes": nodes}
 
     def get_node_and_relations(self, node_id: int):
+        self.db = connect_to_database()
         query = """
             MATCH (n {id: $node_id})-[r]->(m)
             RETURN n AS node, r AS relation, m AS related_node
@@ -61,6 +63,7 @@ class App:
         return {"node_and_relations": nodes_and_relations}
 
     def create_nodes_and_relations(self, data: dict, api_key: str = Depends(authenticate)):
+        self.db = connect_to_database()
         try:
             nodes = []
             for user_data in data['nodes']:
@@ -79,6 +82,7 @@ class App:
             raise HTTPException(status_code=400, detail=str(e))
 
     def delete_node_and_relations(self, node_id: str, api_key: str = Depends(authenticate)):
+        self.db = connect_to_database()
         try:
             nodes = User.nodes.filter(user_id=node_id).all()
 
